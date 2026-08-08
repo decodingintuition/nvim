@@ -9,7 +9,7 @@ return {
 		gitbrowse = { enabled = true },
 		indent = { enabled = true },
 		notifier = { enabled = true },
-		scope = { enabled = true },
+		scope = { enabled = true, treesitter = { injections = false } },
 		scroll = { enabled = true },
 		terminal = { enabled = true },
 		toggle = { enabled = true },
