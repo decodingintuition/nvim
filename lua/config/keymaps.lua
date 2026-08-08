@@ -147,8 +147,8 @@ map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 
 -- Terminal
-map({ "n", "t" }, "<c-/>", function() Snacks.terminal(nil, { cwd = vim.fn.expand("~") }) end, { desc = "Terminal" })
-map({ "n", "t" }, "<c-_>", function() Snacks.terminal(nil, { cwd = vim.fn.expand("~") }) end, { desc = "which_key_ignore" })
+map({ "n", "t" }, "<c-/>", function() Snacks.terminal() end, { desc = "Terminal" })
+map({ "n", "t" }, "<c-_>", function() Snacks.terminal() end, { desc = "which_key_ignore" })
 
 -- Windows
 map("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
