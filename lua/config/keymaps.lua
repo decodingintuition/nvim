@@ -17,6 +17,9 @@ local function run_prompt(action, visual)
 			local lines = vim.fn.getline(s[2], e[2])
 			if type(lines) == "string" then lines = { lines } end
 			code = #lines > 0 and table.concat(lines, "\n") or nil
+		else
+			local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+			code = #lines > 0 and table.concat(lines, "\n") or nil
 		end
 		vim.ui.input({ prompt = action == "build" and "Build: " or "Exec: " }, function(input)
 			if not input or input == "" then return end

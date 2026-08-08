@@ -44,7 +44,7 @@ function M.create(fargs, opts, code)
 	local path = build(fargs, code)
 	if not path then return end
 	vim.fn.setreg("+", path)
-	vim.notify("Ready → " .. path)
+	vim.notify(path)
 end
 
 function M.run(fargs, opts, code)
@@ -56,8 +56,7 @@ function M.run(fargs, opts, code)
 	if vim.v.shell_error ~= 0 then
 		vim.notify("Runtime error:\n" .. output, vim.log.levels.ERROR); return
 	end
-	vim.fn.setreg("+", output)
-	vim.notify("Output copied to clipboard")
+	vim.notify(output)
 end
 
 return M
