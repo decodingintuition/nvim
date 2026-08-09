@@ -76,24 +76,6 @@ map(
 	{ desc = "Flash jump from any mode" }
 )
 
--- Window navigation
-local function wmove(dir)
-	vim.cmd("wincmd " .. dir)
-end
-
-map({ "n", "t" }, "<C-h>", function()
-	wmove("h")
-end, { desc = "Go to left window" })
-map({ "n", "t" }, "<C-j>", function()
-	wmove("j")
-end, { desc = "Go to lower window" })
-map({ "n", "t" }, "<C-k>", function()
-	wmove("k")
-end, { desc = "Go to upper window" })
-map({ "n", "t" }, "<C-l>", function()
-	wmove("l")
-end, { desc = "Go to right window" })
-
 -- ============================================================
 -- LazyVim defaults (thinned down as needed)
 -- ============================================================
