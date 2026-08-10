@@ -52,11 +52,7 @@ local function is_claude_scratch_focused()
 end
 
 local function close_claude_if_open()
-	local terminal = require("claudecode.terminal")
-	local active_bufnr = terminal.get_active_terminal_bufnr()
-	if active_bufnr then
-		terminal.close()
-	end
+	require("util.ai").close("claude")
 end
 
 function M.new_claude_scratch()
@@ -64,8 +60,7 @@ function M.new_claude_scratch()
 
 	local session_id = vim.fn.system("uuidgen"):gsub("\n", "")
 
-	local terminal = require("claudecode.terminal")
-	terminal.open({}, "--session-id " .. session_id .. " \"Hello, Claude!\"")
+	require("util.ai").launch("claude", { "--session-id", session_id, "Hello, Claude!" })
 	return session_id
 end
 
@@ -119,8 +114,7 @@ function M.set_claude_scratch(session_id, session_name)
 	close_claude_if_open()
 
 	claude_session = session_id
-	local terminal = require("claudecode.terminal")
-	terminal.open({}, "--resume " .. session_id)
+	require("util.ai").launch("claude", { "--resume", session_id })
 end
 
 function M.get_claude_scratch()
