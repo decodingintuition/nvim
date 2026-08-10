@@ -1,3 +1,5 @@
+local window_size = require("util.window_size")
+
 return {
 	"folke/snacks.nvim",
 	keys = {
@@ -10,7 +12,18 @@ return {
 				explorer = {
 					layout = {
 						hidden = { "input" },
+						config = function(layout)
+							local width = window_size.get("explorer", layout.layout.width)
+							layout.layout.width = width
+							layout.layout.min_width = math.min(layout.layout.min_width or width, width)
+						end,
 					},
+					on_close = function(picker)
+						local root = picker.layout and picker.layout.root
+						if root and root:win_valid() then
+							window_size.set("explorer", vim.api.nvim_win_get_width(root.win))
+						end
+					end,
 					win = {
 						list = {
 							keys = {

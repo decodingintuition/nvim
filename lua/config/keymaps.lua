@@ -129,8 +129,20 @@ map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 
 -- Terminal
-map({ "n", "t" }, "<c-/>", function() Snacks.terminal() end, { desc = "Terminal" })
-map({ "n", "t" }, "<c-_>", function() Snacks.terminal() end, { desc = "which_key_ignore" })
+local function toggle_terminal()
+	local window_size = require("util.window_size")
+	Snacks.terminal(nil, {
+		win = {
+			height = window_size.get("terminal", 0.4),
+			on_win = function(self)
+				window_size.track(self, "terminal", "height")
+			end,
+		},
+	})
+end
+
+map({ "n", "t" }, "<c-/>", toggle_terminal, { desc = "Terminal" })
+map({ "n", "t" }, "<c-_>", toggle_terminal, { desc = "which_key_ignore" })
 
 -- Windows
 map("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
