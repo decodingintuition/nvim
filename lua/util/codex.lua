@@ -5,7 +5,7 @@ local terminal = nil
 local cmd = "codex --dangerously-bypass-approvals-and-sandbox --model gpt-5.6-sol -c model_reasoning_effort='xhigh'"
 M.config = {
 	cmd = cmd,
-	resume_cmd = cmd .. "resume",
+	resume_cmd = cmd .. " resume",
 	split_side = "right",
 	split_width = 0.3,
 	hide_key = "<C-]><C-]>",
