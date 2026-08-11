@@ -13,6 +13,17 @@ function M.set(key, size)
 	end
 end
 
+local function save(win, key, dimension)
+	if not win:win_valid() then
+		return
+	end
+
+	local size = dimension == "width" and vim.api.nvim_win_get_width(win.win)
+		or vim.api.nvim_win_get_height(win.win)
+	M.set(key, size)
+	win.opts[dimension] = size
+end
+
 function M.track(win, key, dimension)
 	if sizes[key] then
 		win.opts[dimension] = sizes[key]
@@ -23,16 +34,19 @@ function M.track(win, key, dimension)
 	end
 
 	tracked[win] = true
-	win:on("WinResized", function(self)
-		if not self:win_valid() then
-			return
+	local on_close = win.opts.on_close
+	win.opts.on_close = function(self)
+		save(self, key, dimension)
+		if on_close then
+			return on_close(self)
 		end
-
-		local size = dimension == "width" and vim.api.nvim_win_get_width(self.win)
-			or vim.api.nvim_win_get_height(self.win)
-		M.set(key, size)
-		self.opts[dimension] = size
+	end
+	win:on("WinResized", function(self)
+		save(self, key, dimension)
 	end, { win = true })
+	win:on("WinLeave", function(self)
+		save(self, key, dimension)
+	end, { buf = true })
 end
 
 return M
