@@ -13,7 +13,7 @@ M.config = {
 		claude = {
 			label = "Claude",
 			cmd = { "claude", "--dangerously-skip-permissions" },
-			resume = { "--continue" },
+			resume = { "--resume" },
 		},
 		codex = {
 			label = "Codex",
@@ -161,7 +161,6 @@ function M.select()
 			terminals[previous]:hide()
 		end
 		M.config.provider = name
-		focus_provider(name)
 	end)
 end
 
