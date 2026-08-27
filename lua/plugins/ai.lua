@@ -23,10 +23,10 @@ return {
 				require("util.ai").resume()
 			end,
 			desc = "AI Resume",
-			mode = "n",
+			mode = { "n", "x", "t" },
 		},
 		{
-			"<C-]>c",
+			"<C-]>y",
 			function()
 				require("util.ai").send_selection()
 			end,
