@@ -1,16 +1,18 @@
 -- noita.lua
 -- Neovim colorscheme inspired by Noita.
 
+local variant = ... == "light" and "light" or "dark"
+
 vim.cmd("hi clear")
 if vim.fn.exists("syntax_on") == 1 then
   vim.cmd("syntax reset")
 end
 
-vim.g.colors_name = "noita"
-vim.o.background = "dark"
+vim.g.colors_name = variant == "light" and "noita-light" or "noita"
+vim.o.background = variant
 vim.o.termguicolors = true
 
-local p = {
+local palette = {
   bone             = "#c7c7c7",
   gold             = "#fff66d",
   fungus           = "#ee538c",
@@ -37,6 +39,38 @@ local p = {
   mines            = "#111217",
   void             = "#010101",
 }
+
+local p = palette
+if variant == "light" then
+  -- Keep the palette intact while assigning darker colors to foreground roles.
+  p = {
+    bone             = palette.mines,
+    gold             = palette.temple,
+    fungus           = palette.hell,
+    mana             = palette.base,
+    portal           = palette.cloak,
+    ambrosia         = palette.temple,
+    sludge           = palette.jungle,
+    tele             = palette.vault2,
+    lava             = palette.hell,
+    glyph            = palette.hell,
+    cloak            = palette.cloak,
+    blood            = palette.hell,
+    ice              = palette.ice,
+    water            = palette.temple,
+    tablet           = palette.vault2,
+    hell             = palette.blood,
+    temple           = palette.cloak,
+    vault2           = palette.ice,
+    vault1           = palette.gold,
+    jungle           = palette.tablet,
+    base             = palette.tele,
+    wasteland        = palette.ice,
+    pits             = palette.portal,
+    mines            = palette.bone,
+    void             = palette.bone,
+  }
+end
 
 -- ── Highlight table ─────────────────────────────────────────────────────────
 -- String values are treated as links in the apply loop below.
@@ -406,23 +440,40 @@ local hl = {
 
 }
 
+if variant == "light" then
+  local selected = { fg = palette.mines, bg = palette.tele }
+  hl.PmenuSel = selected
+  hl.PmenuKindSel = selected
+  hl.PmenuExtraSel = selected
+  hl.PmenuMatchSel = { fg = palette.mines, bg = palette.tele, bold = true }
+  hl.TabLineSel = selected
+  hl.WildMenu = selected
+  hl.StatusLine = { fg = palette.mines, bg = palette.ice }
+  hl.DiagnosticVirtualTextError = { fg = palette.mines, bg = palette.blood, italic = true }
+  hl.DiagnosticVirtualTextWarn = { fg = palette.mines, bg = palette.gold, italic = true }
+  hl.DiagnosticVirtualTextInfo = { fg = palette.mines, bg = palette.ice, italic = true }
+  hl.DiagnosticVirtualTextHint = { fg = palette.mines, bg = palette.tablet, italic = true }
+  hl.DiagnosticVirtualTextOk = { fg = palette.mines, bg = palette.tablet, italic = true }
+  hl["@diff.minus"] = { fg = palette.mines, bg = palette.blood }
+end
+
 -- ── Terminal colors ──────────────────────────────────────────────────────────
-vim.g.terminal_color_0  = p.void     -- black
-vim.g.terminal_color_1  = p.glyph    -- red
-vim.g.terminal_color_2  = p.sludge   -- green
-vim.g.terminal_color_3  = p.ambrosia -- yellow
-vim.g.terminal_color_4  = p.mana     -- blue
-vim.g.terminal_color_5  = p.fungus   -- magenta
-vim.g.terminal_color_6  = p.tele     -- cyan
-vim.g.terminal_color_7  = p.bone     -- white
-vim.g.terminal_color_8  = p.water    -- bright black
-vim.g.terminal_color_9  = p.blood    -- bright red
-vim.g.terminal_color_10 = p.tablet   -- bright green
-vim.g.terminal_color_11 = p.gold     -- bright yellow
-vim.g.terminal_color_12 = p.ice      -- bright blue
-vim.g.terminal_color_13 = p.lava     -- bright magenta
-vim.g.terminal_color_14 = p.portal   -- bright cyan
-vim.g.terminal_color_15 = p.bone     -- bright white
+vim.g.terminal_color_0  = palette.void     -- black
+vim.g.terminal_color_1  = palette.glyph    -- red
+vim.g.terminal_color_2  = palette.sludge   -- green
+vim.g.terminal_color_3  = palette.ambrosia -- yellow
+vim.g.terminal_color_4  = palette.mana     -- blue
+vim.g.terminal_color_5  = palette.fungus   -- magenta
+vim.g.terminal_color_6  = palette.tele     -- cyan
+vim.g.terminal_color_7  = palette.bone     -- white
+vim.g.terminal_color_8  = palette.water    -- bright black
+vim.g.terminal_color_9  = palette.blood    -- bright red
+vim.g.terminal_color_10 = palette.tablet   -- bright green
+vim.g.terminal_color_11 = palette.gold     -- bright yellow
+vim.g.terminal_color_12 = palette.ice      -- bright blue
+vim.g.terminal_color_13 = palette.lava     -- bright magenta
+vim.g.terminal_color_14 = palette.portal   -- bright cyan
+vim.g.terminal_color_15 = palette.bone     -- bright white
 
 -- ── Apply ────────────────────────────────────────────────────────────────────
 for group, spec in pairs(hl) do

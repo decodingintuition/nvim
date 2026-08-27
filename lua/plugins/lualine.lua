@@ -3,7 +3,9 @@ return {
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	opts = {
 		options = {
-			theme = "noita",
+			theme = function()
+				return vim.o.background == "light" and "noita-light" or "noita"
+			end,
 		},
 	},
 }
