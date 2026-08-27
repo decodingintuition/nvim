@@ -22,10 +22,10 @@ M.config = {
 				"--dangerously-bypass-approvals-and-sandbox",
 				"--model",
 				"gpt-5.6-sol",
-				"-c",
-				"model_reasoning_effort=xhigh",
 			},
 			resume = { "resume" },
+			reasoning = "max",
+			reasoning_levels = { "low", "medium", "high", "xhigh", "max", "ultra" },
 		},
 	},
 }
@@ -37,7 +37,11 @@ end
 
 local function command(name, args)
 	local provider = assert(M.config.providers[name], "Unknown AI provider: " .. name)
-	return vim.list_extend(vim.deepcopy(provider.cmd), args or {})
+	local cmd = vim.deepcopy(provider.cmd)
+	if provider.reasoning then
+		vim.list_extend(cmd, { "-c", "model_reasoning_effort=" .. provider.reasoning })
+	end
+	return vim.list_extend(cmd, args or {})
 end
 
 local function open(name, args)
@@ -145,6 +149,21 @@ function M.launch(name, args)
 	return open(name, args)
 end
 
+function M.select_reasoning()
+	local provider = M.config.providers.codex
+	vim.ui.select(provider.reasoning_levels, {
+		prompt = "Codex reasoning:",
+		format_item = function(reasoning)
+			local selected = reasoning == provider.reasoning and " ✓" or ""
+			return reasoning:upper() .. selected
+		end,
+	}, function(reasoning)
+		if reasoning then
+			provider.reasoning = reasoning
+		end
+	end)
+end
+
 function M.select()
 	local providers = { "claude", "codex" }
 	vim.ui.select(providers, {
@@ -161,6 +180,9 @@ function M.select()
 			terminals[previous]:hide()
 		end
 		M.config.provider = name
+		if name == "codex" then
+			M.select_reasoning()
+		end
 	end)
 end
 
