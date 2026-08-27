@@ -15,6 +15,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("config.options")
+vim.cmd.colorscheme("noita")
 
 require("lazy").setup({
 	spec = {
