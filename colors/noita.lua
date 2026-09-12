@@ -294,8 +294,8 @@ local hl = {
   GitSignsDeleteInline = { fg = p.void, bg = p.glyph },
 
   -- ── snacks.nvim ───────────────────────────────────────────────────────────
-  SnacksNormal = "NormalFloat",
-  SnacksNormalNC = "NormalFloat",
+  SnacksNormal = "Normal",
+  SnacksNormalNC = "Normal",
   SnacksWinBar = { fg = p.tele, bold = true },
   SnacksWinBarNC = "SnacksWinBar",
   SnacksBackdrop = { fg = p.water, bg = p.wasteland },
