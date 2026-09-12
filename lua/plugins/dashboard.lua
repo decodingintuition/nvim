@@ -54,6 +54,7 @@ return {
 		vim.api.nvim_set_hl(0, "Gradient5", { fg = "#db4330" })
 		vim.api.nvim_set_hl(0, "Gradient6", { fg = "#e03030" })
 		require("snacks").setup(opts)
+		require("util.diff_highlights").setup()
 	end,
 	keys = {
 		{
