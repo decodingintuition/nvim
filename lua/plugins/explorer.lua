@@ -10,6 +10,9 @@ return {
 		picker = {
 			sources = {
 				explorer = {
+					actions = {
+						explorer_clear_filter = require("util.explorer").clear_filter,
+					},
 					layout = {
 						hidden = { "input" },
 						config = function(layout)
@@ -25,13 +28,19 @@ return {
 						end
 					end,
 					win = {
+						input = {
+							keys = {
+								["<Esc>"] = { "explorer_clear_filter", mode = { "n", "i" } },
+							},
+						},
 						list = {
 							keys = {
 								["."] = require("util.explorer").cd_to_focused,
-								["/"] = require("util.explorer").find_in_focused,
+								["/"] = "focus_input",
+								["f"] = require("util.explorer").find_in_focused,
 								["<BS>"] = require("util.explorer").cd_parent,
 								["<C-s>"] = require("util.flash").anymode,
-								["<Esc>"] = false,
+								["<Esc>"] = "explorer_clear_filter",
 							},
 						},
 					},

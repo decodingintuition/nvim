@@ -2,8 +2,7 @@ local M = {}
 
 local function pick_nearest_dir()
 	local picker = Snacks.picker.get({ source = "explorer" })[1]
-	local item = picker:current()
-	return vim.fn.isdirectory(item.file) == 1 and item.file or vim.fn.fnamemodify(item.file, ":h")
+	return picker and picker:dir() or vim.fn.getcwd()
 end
 
 local function change_dir(dir)
@@ -40,5 +39,13 @@ function M.find_in_focused()
 	Snacks.picker.files({ cwd = dir })
 end
 
-return M
+function M.clear_filter(picker)
+	picker:norm(function()
+		picker.input:set("", "")
+		picker:find()
+		picker:focus("list")
+		picker:toggle("input", { enable = false })
+	end)
+end
 
+return M
